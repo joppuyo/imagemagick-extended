@@ -371,68 +371,7 @@ class WP_Image_Editor_Imagick_Options extends WP_Image_Editor
         }
 
         try {
-
             $this->image->resizeImage($dst_w, $dst_h, $filter, 1);
-
-            // Set appropriate quality settings after resizing.
-            if ($this->mime_type === 'image/jpeg') {
-                //$this->image->setOption('jpeg:fancy-upsampling', 'off');
-
-                $sampling = null;
-                if ($this->options['chroma_subsampling'] === '420') {
-                    $sampling = ['2x2', '1x1', '1x1'];
-                } else if ($this->options['chroma_subsampling'] === '422') {
-                    $sampling = ['2x1', '1x1', '1x1'];
-                } else if ($this->options['chroma_subsampling'] === '444') {
-                    $sampling = ['1x1', '1x1', '1x1'];
-                }
-                if ($this->options['progressive'] === true) {
-                    $this->image->setInterlaceScheme(Imagick::INTERLACE_JPEG);
-                } else {
-                    $this->image->setInterlaceScheme(Imagick::INTERLACE_NO);
-                }
-
-                $this->image->setSamplingFactors($sampling);
-            }
-
-            if ($this->mime_type === 'image/png') {
-                $this->image->setOption('png:compression-filter', '5');
-                $this->image->setOption('png:compression-level', '9');
-                $this->image->setOption('png:compression-strategy', '1');
-                $this->image->setOption('png:exclude-chunk', 'all');
-            }
-
-            /*
-             * If alpha channel is not defined, set it opaque.
-             *
-             * Note that Imagick::getImageAlphaChannel() is only available if Imagick
-             * has been compiled against ImageMagick version 6.4.0 or newer.
-             */
-            if (
-                is_callable([$this->image, 'getImageAlphaChannel']) &&
-                is_callable([$this->image, 'setImageAlphaChannel']) &&
-                defined('Imagick::ALPHACHANNEL_UNDEFINED') &&
-                defined('Imagick::ALPHACHANNEL_OPAQUE')
-            ) {
-                if (
-                    $this->image->getImageAlphaChannel() ===
-                    Imagick::ALPHACHANNEL_UNDEFINED
-                ) {
-                    $this->image->setImageAlphaChannel(
-                        Imagick::ALPHACHANNEL_OPAQUE
-                    );
-                }
-            }
-
-            // Limit the bit depth of resized images to 8 bits per channel.
-            if (
-                is_callable([$this->image, 'getImageDepth']) &&
-                is_callable([$this->image, 'setImageDepth'])
-            ) {
-                if (8 < $this->image->getImageDepth()) {
-                    $this->image->setImageDepth(8);
-                }
-            }
         } catch (Exception $e) {
             return new WP_Error('image_resize_error', $e->getMessage());
         }
@@ -764,6 +703,8 @@ class WP_Image_Editor_Imagick_Options extends WP_Image_Editor
             // Store initial format.
             $orig_format = $this->image->getImageFormat();
 
+            $this->set_options();
+
             $this->image->setImageFormat(
                 strtoupper($this->get_extension($mime_type))
             );
@@ -887,5 +828,68 @@ class WP_Image_Editor_Imagick_Options extends WP_Image_Editor
         }
 
         return true;
+    }
+
+    /**
+     * Set options for saving the image
+     */
+    private function set_options() {
+        // Set appropriate quality settings after resizing.
+        if ($this->mime_type === 'image/jpeg') {
+            $sampling = null;
+            if ($this->options['chroma_subsampling'] === '420') {
+                $sampling = ['2x2', '1x1', '1x1'];
+            } else if ($this->options['chroma_subsampling'] === '422') {
+                $sampling = ['2x1', '1x1', '1x1'];
+            } else if ($this->options['chroma_subsampling'] === '444') {
+                $sampling = ['1x1', '1x1', '1x1'];
+            }
+            if ($this->options['progressive'] === true) {
+                $this->image->setInterlaceScheme(Imagick::INTERLACE_JPEG);
+            } else {
+                $this->image->setInterlaceScheme(Imagick::INTERLACE_NO);
+            }
+
+            $this->image->setSamplingFactors($sampling);
+        }
+
+        if ($this->mime_type === 'image/png') {
+            $this->image->setOption('png:compression-filter', '5');
+            $this->image->setOption('png:compression-level', '9');
+            $this->image->setOption('png:compression-strategy', '1');
+            $this->image->setOption('png:exclude-chunk', 'all');
+        }
+
+        /*
+         * If alpha channel is not defined, set it opaque.
+         *
+         * Note that Imagick::getImageAlphaChannel() is only available if Imagick
+         * has been compiled against ImageMagick version 6.4.0 or newer.
+         */
+        if (
+            is_callable([$this->image, 'getImageAlphaChannel']) &&
+            is_callable([$this->image, 'setImageAlphaChannel']) &&
+            defined('Imagick::ALPHACHANNEL_UNDEFINED') &&
+            defined('Imagick::ALPHACHANNEL_OPAQUE')
+        ) {
+            if (
+                $this->image->getImageAlphaChannel() ===
+                Imagick::ALPHACHANNEL_UNDEFINED
+            ) {
+                $this->image->setImageAlphaChannel(
+                    Imagick::ALPHACHANNEL_OPAQUE
+                );
+            }
+        }
+
+        // Limit the bit depth of resized images to 8 bits per channel.
+        if (
+            is_callable([$this->image, 'getImageDepth']) &&
+            is_callable([$this->image, 'setImageDepth'])
+        ) {
+            if (8 < $this->image->getImageDepth()) {
+                $this->image->setImageDepth(8);
+            }
+        }
     }
 }

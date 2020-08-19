@@ -26,14 +26,21 @@ class WP_Image_Editor_Imagick_Options extends WP_Image_Editor
 
     public function __construct($file)
     {
+        global $imagemagick_extended;
         parent::__construct($file);
-        $this->options = [
-            'chroma_subsampling' => '444',
-            //'chroma_subsampling' => '420',
-            'progressive' => false,
-            'filter' => 'FILTER_LANCZOS',
-            //'filter' => 'FILTER_POINT',
-        ];
+        $this->options = $imagemagick_extended->options;
+
+        // This is for the preview
+        if (!empty($_POST['imex_options'])) {
+            $options = $_POST['imex_options'];
+
+            // 10 years and counting. Don't hold your breath. https://core.trac.wordpress.org/ticket/18322
+            $options = stripslashes_deep($options);
+
+            $options = json_decode($options, true);
+            $this->options = $options;
+            error_log(print_r($this->options, true));
+        }
     }
 
     /**

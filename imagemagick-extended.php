@@ -13,10 +13,20 @@ class ImageMagickExtended {
     /**
      * @var array
      */
+    private static $instance;
     public $options;
     public $resampling_filters;
 
-    public function __construct()
+    public static function get_instance()
+    {
+        if (static::$instance === null) {
+            static::$instance = new static();
+        }
+
+        return static::$instance;
+    }
+
+    private function __construct()
     {
         $default_options = [
             'chroma_subsampling' => '420',
@@ -83,7 +93,7 @@ class ImageMagickExtended {
 
     function ajax_preview()
     {
-        $image_editor = wp_get_image_editor(__DIR__ . '/test-images/kodim01.png');
+        $image_editor = wp_get_image_editor(__DIR__ . '/test-images/broadway-tower-edit.png');
         $image_editor->resize(150, 150);
         echo $image_editor->stream('image/jpeg');
     }
@@ -108,7 +118,13 @@ class ImageMagickExtended {
         $context = [];
         $context['resampling_filters'] = $this->resampling_filters;
         $context['test_images'] = [
-            plugin_dir_url(__FILE__) . 'test-images/kodim01.png'
+            [
+                'name' => 'Broadway Tower',
+                'author' => 'Newton2',
+                'author_url' => 'https://en.wikipedia.org/wiki/User:Newton2',
+                'license' => 'CC-BY-2.5',
+                'url' => plugin_dir_url(__FILE__) . '/test-images/broadway-tower-edit.jpg'
+            ] ,
         ];
         $json = htmlspecialchars(json_encode($context));
 
@@ -143,4 +159,4 @@ class ImageMagickExtended {
     }
 }
 
-$imagemagick_extended = new ImageMagickExtended();
+$imagemagick_extended = ImageMagickExtended::get_instance();

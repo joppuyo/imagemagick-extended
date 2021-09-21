@@ -81,7 +81,7 @@
 
         <Panel title="Original">
           <div class="imex-test-image">
-            <img v-bind:src="context.test_images[0]">
+            <img v-bind:src="context.test_images[0].url">
           </div>
         </Panel>
 

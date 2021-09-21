@@ -26,8 +26,8 @@ class WP_Image_Editor_Imagick_Options extends WP_Image_Editor
 
     public function __construct($file)
     {
-        global $imagemagick_extended;
         parent::__construct($file);
+        $imagemagick_extended = ImageMagickExtended::get_instance();
         $this->options = $imagemagick_extended->options;
 
         // This is for the preview

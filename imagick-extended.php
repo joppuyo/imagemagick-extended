@@ -106,6 +106,9 @@ class ImageMagickExtended {
 
         $context = [];
         $context['resampling_filters'] = $this->resampling_filters;
+        $context['test_images'] = [
+            plugin_dir_url(__FILE__) . 'test-images/kodim01.png'
+        ];
         $json = htmlspecialchars(json_encode($context));
 
         echo "<div id=\"imagemagick-extended\"><imagemagick-extended v-bind:context=\"$json\"></imagemagick-extended></div>";

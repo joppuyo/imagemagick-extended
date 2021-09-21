@@ -1,3 +1,136 @@
+.ime-app {
+  box-sizing: border-box;
+  h1 {
+    margin-bottom: 20px;
+  }
+}
+
+.imex-test-image img {
+  width: 300px;
+  display: block;
+}
+
 .imex-preview-image img {
   width: 300px;
+  display: block;
+  image-rendering: pixelated;
+}
+
+.imex-range {
+  border-radius: 0;
+  height: 2px;
+  width: 100%;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+input.imex-range[type='range']::-webkit-slider-thumb {
+  width: 16px;
+  -webkit-appearance: none;
+  height: 16px;
+  background: #007AFF;
+  border-radius: 50%;
+}
+
+.ime-panel {
+  background-color: white;
+  width: 300px;
+  padding: 20px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.ime-panel-title {
+  font-weight: 700;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E2E4E7;
+  margin-bottom: 20px;
+}
+
+.ime-quality-slider {
+  flex-grow: 1;
+  margin-right: 20px;
+}
+
+.ime-quality {
+  display: flex;
+  width: 100%;
+}
+
+.ime-quality-number input {
+  width: 60px;
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  -moz-appearance: textfield;
+}
+
+.ime-grid {
+  display: flex;
+
+}
+
+.ime-grid-item {
+  margin-right: 20px;
+}
+
+.ime-subgrid {
+  display: flex;
+}
+
+.imex-label {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.imex-control {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #E2E4E7;
+}
+
+.imex-mb-20 {
+  margin-bottom: 20px;
+}
+
+.imex-checkbox {
+
+}
+.imex-checkbox-input {
+  appearance: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+.imex-checkbox-label {
+  display: flex;
+  user-select: none;
+}
+.imex-checkbox-custom-checkbox {
+  height: 14px;
+  width: 14px;
+  flex-shrink: 0;
+  border: 2px solid #979797;
+  margin-right: 16px;
+  margin-top: 4px;
+  border-radius: 2px;
+}
+.imex-checkbox-custom-label {
+  line-height: 1.5;
+}
+.imex-checkbox-input:checked + .imex-checkbox-custom-checkbox {
+  background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='16px' height='16px' viewBox='0 0 16 16' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3EGroup%3C/title%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Group'%3E%3Crect id='Rectangle-Copy-40' fill='%23007AFF' x='0' y='0' width='16' height='16'%3E%3C/rect%3E%3Cg id='check-square-regular' transform='translate(2.000000, 4.000000)' fill='%23FFFFFF' fill-rule='nonzero'%3E%3Cpath d='M11.0048571,1.65271429 L4.84096429,7.76714286 C4.67292857,7.93382143 4.40157143,7.93275 4.23489286,7.76471429 L0.992714286,4.49628571 C0.826035714,4.32825 0.827107143,4.05689286 0.995178571,3.89017857 L1.80657143,3.08532143 C1.97460714,2.91864286 2.24596429,2.91971429 2.41264286,3.08778571 L4.54807143,5.24053571 L9.59635714,0.232821429 C9.76439286,0.0661428571 10.03575,0.0672142857 10.2024286,0.23525 L11.0072857,1.04660714 C11.1739643,1.21467857 11.1728929,1.48603571 11.0048571,1.65271429 Z' id='Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");;
+  background-position: center;
+  border: 2px solid #007AFF;
+}
+
+.imex-select {
+  min-width: 200px;
 }

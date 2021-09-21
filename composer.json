@@ -1,0 +1,12 @@
+{
+    "name": "joppuyo/imagemagick-extended",
+    "description": "This plugin adds some extra options for WordPress ImageMagick editor",
+    "authors": [
+        {
+            "name": "Johannes Siipola",
+            "email": "johannes@siipo.la"
+        }
+    ],
+    "require": {
+    }
+}

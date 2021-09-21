@@ -2,6 +2,7 @@
 
 /*
  * Plugin name: ImageMagick extended
+ * Version: 0.0.2
  */
 
 // lol no autoload
